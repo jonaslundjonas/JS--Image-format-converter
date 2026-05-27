@@ -3,17 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Format Converter</title>
-    <!-- 1. Load Tailwind CSS -->
+    <title>Easy Image Converter - Advanced Image Format Converter</title>
+    <!-- Meta tags for SEO -->
+    <meta name="description" content="A premium, secure client-side image format converter supporting PNG, JPEG, WebP, SVG, TIFF, HEIC, BMP, ICO, and GIF with instant local processing.">
+    <!-- 1. Load Tailwind CSS (CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- 2. Load Material Symbols font -->
+    <!-- 2. Load Google Fonts (Inter & Outfit) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Outfit:wght@500;700;800&display=swap" rel="stylesheet">
+    <!-- 3. Load Material Symbols font -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <!-- 3. Load tiff.js for TIFF *input* support -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tiff.js/1.0.0/tiff.min.js"></script>
-    <!-- 4. Load UTIF.js for TIFF *output* support -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/utif/3.1.0/UTIF.js"></script>
+    <!-- 4. Load UTIF.js (CDN from jsDelivr) for TIFF input/output support -->
+    <script src="https://cdn.jsdelivr.net/npm/utif@3.1.0/UTIF.min.js"></script>
     
-    <!-- 5. Configure Tailwind for Inter font and dark mode -->
+    <!-- 5. Configure Tailwind for Custom Typography & Sleek Accent Colors -->
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -21,141 +25,324 @@
                 extend: {
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
                     },
                     colors: {
-                        // Material 3 Dark Theme color palette (approx.)
-                        primary: '#A8C7FA', // Primary (e.g., buttons)
-                        onPrimary: '#003062',
-                        primaryContainer: '#004788',
-                        onPrimaryContainer: '#D6E3FF',
-                        secondary: '#BEC6DC', // Secondary actions
-                        onSecondary: '#283141',
-                        secondaryContainer: '#3E4759',
-                        onSecondaryContainer: '#DAE2F9',
-                        tertiary: '#DEBCDF', // Accent
-                        onTertiary: '#402843',
-                        tertiaryContainer: '#583E5B',
-                        onTertiaryContainer: '#FAD8FC',
-                        error: '#F2B8B5',
-                        onError: '#601410',
-                        errorContainer: '#8C1D18',
-                        onErrorContainer: '#F9DEDC',
-                        background: '#111318', // Page background
-                        onBackground: '#E3E2E6', // Default text
-                        surface: '#111318', // Card background
-                        onSurface: '#E3E2E6', // Card text
-                        surfaceVariant: '#44474E', // Outlines, dividers, input backgrounds
-                        onSurfaceVariant: '#C4C6CF', // Medium-emphasis text
-                        outline: '#8E9099',
+                        brand: {
+                            50: '#f0f3ff',
+                            100: '#e1e7ff',
+                            200: '#cbd5ff',
+                            300: '#a8baff',
+                            400: '#8093ff',
+                            500: '#5463ff',
+                            600: '#3e44ff',
+                            700: '#2b2cff',
+                            800: '#2022d8',
+                            900: '#1b1cb6',
+                            950: '#0f0e6e',
+                        },
+                        darkBg: '#090B0F',
+                        cardBg: '#131822',
+                    },
+                    animation: {
+                        'spin-slow': 'spin 3s linear infinite',
+                        'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
                     }
                 }
             }
         }
     </script>
-    <!-- 6. Custom styles for Material Symbols -->
+    <!-- 6. Custom CSS styles for premium looks -->
     <style>
         .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-            vertical-align: bottom; /* Aligns icons nicely with text */
+            font-variation-settings: 'FILL' 0, 'wght' 350, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        
+        /* Ambient light glows */
+        .glow-orb-1 {
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, rgba(99, 102, 241, 0) 70%);
+        }
+        .glow-orb-2 {
+            background: radial-gradient(circle, rgba(168, 85, 247, 0.12) 0%, rgba(168, 85, 247, 0) 75%);
+        }
+        
+        /* Subtle checkerboard pattern for transparency visualization */
+        .bg-checkerboard {
+            background-color: #0d121f;
+            background-image: 
+                linear-gradient(45deg, #182030 25%, transparent 25%), 
+                linear-gradient(-45deg, #182030 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #182030 75%), 
+                linear-gradient(-45deg, transparent 75%, #182030 75%);
+            background-size: 16px 16px;
+            background-position: 0 0, 0 8px, 8px -8px, -8px 0px;
+        }
+
+        /* Glassmorphic border */
+        .glass-border {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #090B0F;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f293d;
+            border-radius: 999px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #374151;
         }
     </style>
 </head>
-<body class="bg-background font-sans text-onBackground min-h-screen flex items-center justify-center p-4">
+<body class="bg-darkBg text-slate-200 font-sans min-h-screen flex flex-col items-center justify-center p-4 relative overflow-x-hidden">
 
-    <!-- Main Converter Card -->
-    <div class="w-full max-w-md bg-surface rounded-3xl shadow-2xl overflow-hidden" style="background-color: #1A1C20;"> <!-- Slightly lighter surface -->
+    <!-- Glowing Background Ambient Orbs -->
+    <div class="absolute -top-[20%] -left-[10%] w-[60%] aspect-square rounded-full glow-orb-1 blur-[100px] pointer-events-none z-0"></div>
+    <div class="absolute -bottom-[20%] -right-[10%] w-[60%] aspect-square rounded-full glow-orb-2 blur-[100px] pointer-events-none z-0"></div>
+
+    <!-- Main Card Container -->
+    <div class="w-full max-w-xl bg-cardBg/60 backdrop-blur-2xl rounded-3xl shadow-2xl glass-border overflow-hidden relative z-10 flex flex-col">
         
         <!-- Header -->
-        <div class="p-6 border-b border-surfaceVariant">
-            <h1 class="text-2xl font-medium text-center text-onSurface">Image Converter</h1>
-            <p class="text-sm text-center text-onSurfaceVariant mt-1">Convert JPEG, PNG, WebP, SVG, and TIFF files.</p>
-        </div>
+        <header class="p-6 md:p-8 border-b border-white/5 text-center">
+            <h1 class="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent font-display">
+                Easy Image Converter
+            </h1>
+            <p class="text-sm text-slate-400 mt-2 font-medium">
+                Client-side format converter with high-fidelity local processing.
+            </p>
+        </header>
 
         <!-- Main Content Area -->
-        <div class="p-6 flex flex-col gap-6">
+        <main class="p-6 md:p-8 flex flex-col gap-6">
 
-            <!-- 1. File Upload Area -->
-            <div>
-                <label for="file-upload" class="flex flex-col items-center justify-center w-full h-32 border-2 border-surfaceVariant border-dashed rounded-2xl cursor-pointer bg-background hover:bg-surfaceVariant/20 transition-colors">
-                    <div class="flex flex-col items-center justify-center pt-5 pb-6">
-                        <span class="material-symbols-outlined text-4xl text-onSurfaceVariant">upload_file</span>
-                        <p class="mb-2 text-sm text-onSurfaceVariant"><span class="font-semibold">Click to upload</span> or drag and drop</p>
-                        <p class="text-xs text-onSurfaceVariant">PNG, JPG, WebP, SVG, or TIFF</p>
+            <!-- 1. Drag & Drop File Upload Area -->
+            <section aria-label="File Upload">
+                <div id="drop-zone" class="flex flex-col items-center justify-center w-full min-h-[140px] border-2 border-slate-700/60 border-dashed rounded-2xl cursor-pointer bg-slate-950/40 hover:bg-slate-950/80 hover:border-brand-500/50 transition-all duration-300 group p-6 text-center">
+                    <span class="material-symbols-outlined text-4xl text-slate-400 group-hover:text-brand-400 group-hover:scale-110 transition-all duration-300">
+                        cloud_upload
+                    </span>
+                    <div class="mt-3">
+                        <p class="text-sm font-medium text-slate-200">
+                            Drag and drop your image, or <span class="text-brand-400 underline hover:text-brand-300 transition-colors">browse files</span>
+                        </p>
+                        <p class="text-xs text-slate-500 mt-1.5">
+                            PNG, JPG, WebP, SVG, TIFF, HEIC, GIF, BMP, ICO
+                        </p>
                     </div>
-                    <!-- Updated accept attribute -->
-                    <input id="file-upload" type="file" class="hidden" accept="image/jpeg,image/png,image/webp,image/svg+xml,image/tiff">
+                    <input id="file-upload" type="file" class="hidden" accept="image/*,.tiff,.tif,.heic,.heif">
+                </div>
+            </section>
+
+            <!-- 2. Dynamic Image Preview & Info Badge -->
+            <section id="preview-container" class="hidden flex flex-col gap-4">
+                <div class="relative w-full aspect-video bg-slate-950/80 rounded-2xl overflow-hidden ring-1 ring-white/5 bg-checkerboard flex items-center justify-center">
+                    <img id="image-preview" src="#" alt="Uploaded Image Preview" class="object-contain max-w-full max-h-full transition-transform duration-300 hover:scale-105">
+                    
+                    <!-- Reset Button -->
+                    <button id="reset-btn" class="absolute top-3 right-3 p-2 bg-slate-900/80 hover:bg-red-950/80 text-slate-300 hover:text-red-400 rounded-full backdrop-blur-md transition-all glass-border shadow-lg" title="Clear image">
+                        <span class="material-symbols-outlined text-lg">close</span>
+                    </button>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-center">
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Format</span>
+                        <span id="info-format" class="text-sm font-bold text-slate-200 mt-0.5 block">-</span>
+                    </div>
+                    <div class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-center">
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Dimensions</span>
+                        <span id="info-dimensions" class="text-sm font-bold text-slate-200 mt-0.5 block">-</span>
+                    </div>
+                    <div class="bg-slate-950/40 border border-white/5 rounded-xl p-3 text-center">
+                        <span class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider block">Size</span>
+                        <span id="info-size" class="text-sm font-bold text-slate-200 mt-0.5 block">-</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. Target Format Selector -->
+            <section class="flex flex-col gap-2">
+                <label for="format-select" class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
+                    Convert to
                 </label>
-            </div>
-
-            <!-- 2. Image Preview -->
-            <div id="preview-container" class="hidden relative w-full aspect-video bg-background rounded-2xl overflow-hidden ring-1 ring-surfaceVariant">
-                <img id="image-preview" src="#" alt="Image Preview" class="object-contain w-full h-full">
-                <p id="image-info" class="absolute bottom-2 left-1/2 -translate-x-1/2 bg-black/50 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm"></p>
-            </div>
-
-            <!-- 3. Format Selector -->
-            <div>
-                <label for="format-select" class="block mb-2 text-sm font-medium text-onSurfaceVariant">Convert to:</label>
                 <div class="relative">
-                    <select id="format-select" class="block w-full px-4 py-3 text-base text-onSurface bg-surfaceVariant/50 border border-surfaceVariant rounded-lg appearance-none focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all">
-                        <option value="image/png">PNG (Lossless)</option>
-                        <option value="image/jpeg">JPEG (100% Quality)</option>
-                        <option value="image/webp">WebP (Lossless)</option>
-                        <option value="image/tiff">TIFF (Lossless)</option>
+                    <select id="format-select" class="block w-full px-4 py-3 bg-slate-950/60 border border-white/5 rounded-xl text-slate-200 appearance-none focus:outline-none focus:ring-2 focus:ring-brand-500/50 focus:border-brand-500 transition-all font-medium text-sm">
+                        <option value="image/png">PNG (Lossless with Alpha)</option>
+                        <option value="image/jpeg">JPEG (High Quality, Solid Background)</option>
+                        <option value="image/webp">WebP (Efficient Lossless/Lossy)</option>
+                        <option value="image/tiff">TIFF (Professional Lossless)</option>
+                        <option value="image/bmp">BMP (Standard Bitmap)</option>
+                        <option value="image/x-icon">ICO (Windows Icon / Favicon)</option>
+                        <option value="image/gif">GIF (Static Image)</option>
                     </select>
-                    <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-onSurfaceVariant pointer-events-none">
+                    <span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none">
                         expand_more
                     </span>
                 </div>
-            </div>
+            </section>
 
-            <!-- 4. Action Buttons -->
-            <div class="flex flex-col gap-4">
-                <!-- Status Message -->
-                <p id="status-message" class="text-sm text-center text-secondary h-5"></p>
+            <!-- 4. Action Area -->
+            <section class="flex flex-col gap-4">
+                <!-- Interactive Status Card -->
+                <div id="status-card" class="hidden p-3 rounded-xl border flex items-center gap-3 text-xs transition-all duration-300">
+                    <span id="status-icon" class="material-symbols-outlined text-lg"></span>
+                    <p id="status-text" class="font-medium"></p>
+                </div>
 
-                <!-- Convert Button -->
-                <button id="convert-btn" class="w-full flex items-center justify-center gap-2 bg-primary text-onPrimary font-medium py-3 px-5 rounded-full shadow-lg hover:shadow-primary/30 focus:outline-none focus:ring-4 focus:ring-primary/50 transition-all disabled:opacity-50 disabled:shadow-none" disabled>
-                    <span class="material-symbols-outlined">sync</span>
-                    Convert
+                <!-- Convert Trigger Button -->
+                <button id="convert-btn" class="w-full flex items-center justify-center gap-2 bg-gradient-to-r from-brand-600 to-purple-600 hover:from-brand-500 hover:to-purple-500 text-white font-semibold py-3.5 px-6 rounded-xl shadow-lg hover:shadow-brand-500/10 hover:scale-[1.01] active:scale-[0.99] transition-all disabled:opacity-40 disabled:pointer-events-none disabled:shadow-none" disabled>
+                    <span id="convert-icon" class="material-symbols-outlined">sync</span>
+                    Convert Image
                 </button>
                 
-                <!-- Download Link (styled as a button) -->
-                <a id="download-link" class="hidden w-full flex items-center justify-center gap-2 bg-tertiaryContainer text-onTertiaryContainer font-medium py-3 px-5 rounded-full shadow-lg hover:shadow-tertiary/30 focus:outline-none focus:ring-4 focus:ring-tertiary/50 transition-all">
-                    <span class="material-symbols-outlined">download</span>
-                    Download File
-                </a>
-            </div>
+                <!-- Premium Success/Download Panel -->
+                <div id="download-card" class="hidden flex flex-col gap-3 p-4 bg-emerald-950/15 border border-emerald-800/35 rounded-2xl animate-pulse-slow">
+                    <div class="flex items-center gap-3">
+                        <span class="material-symbols-outlined text-emerald-400 text-2xl">check_circle</span>
+                        <div>
+                            <p class="text-sm font-semibold text-emerald-200">Ready to save</p>
+                            <p id="download-info" class="text-xs text-emerald-400/80 mt-0.5"></p>
+                        </div>
+                    </div>
+                    <a id="download-link" class="w-full flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold py-3 px-5 rounded-xl shadow-lg hover:shadow-emerald-500/15 transition-all hover:scale-[1.01] active:scale-[0.99]">
+                        <span class="material-symbols-outlined">download</span>
+                        Download Converted File
+                    </a>
+                </div>
+            </section>
 
-            <!-- 5. Footer Attribution -->
-            <p class="text-xs text-center text-onSurfaceVariant/50 pt-4">
-                Written by Jonas Lund 2025
+            <!-- 5. Collapsible Help Section -->
+            <section class="border-t border-white/5 pt-6 mt-2">
+                <details class="group bg-slate-950/20 rounded-xl overflow-hidden border border-white/5 transition-all duration-300">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer select-none text-[10px] font-bold text-slate-400 uppercase tracking-wider hover:text-slate-200 transition-colors">
+                        <span>How it works & Supported Formats</span>
+                        <span class="material-symbols-outlined transform group-open:rotate-180 transition-transform duration-300 text-sm">
+                            expand_more
+                        </span>
+                    </summary>
+                    <div class="px-4 pb-4 text-xs text-slate-400 flex flex-col gap-3 leading-relaxed">
+                        <p>
+                            <strong>Easy Image Converter</strong> runs entirely in your web browser. Your images are processed locally using Canvas APIs and modern decoding libraries. Your files are <strong>never uploaded to any server</strong>, keeping your photos completely private and secure.
+                        </p>
+                         <div class="border-t border-white/5 pt-2">
+                             <strong class="text-slate-300 block mb-1">Supported Input Formats:</strong>
+                             <ul class="list-disc list-inside grid grid-cols-2 gap-x-2 gap-y-0.5 text-slate-400/90">
+                                 <li>PNG (.png)</li>
+                                 <li>JPEG / JPG (.jpg, .jpeg)</li>
+                                 <li>WebP (.webp)</li>
+                                 <li>SVG (.svg)</li>
+                                 <li>TIFF (.tiff, .tif)</li>
+                                 <li>HEIC / HEIF (.heic, .heif)</li>
+                                 <li>GIF (.gif)</li>
+                                 <li>BMP (.bmp)</li>
+                             </ul>
+                         </div>
+                         <div class="border-t border-white/5 pt-2">
+                             <strong class="text-slate-300 block mb-1">Supported Output Formats:</strong>
+                             <ul class="list-disc list-inside grid grid-cols-2 gap-x-2 gap-y-0.5 text-slate-400/90">
+                                 <li>PNG (Lossless, alpha)</li>
+                                 <li>JPEG (Solid background)</li>
+                                 <li>WebP (Compressed)</li>
+                                 <li>TIFF (Professional Lossless)</li>
+                                 <li>BMP (Standard Bitmap)</li>
+                                 <li>ICO (Favicon / Icon)</li>
+                                 <li>GIF (Static Image)</li>
+                             </ul>
+                         </div>
+                    </div>
+                </details>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="p-6 border-t border-white/5 text-center flex flex-col gap-1 items-center justify-center">
+            <p class="text-slate-500 text-[10px] uppercase tracking-wider font-semibold">
+                Local Processing &bull; No Server Uploads
             </p>
-
-        </div>
+            <p class="text-[10px] text-slate-600 mt-1">
+                Written by Jonas Lund &bull; Refined 2026
+            </p>
+        </footer>
     </div>
 
+    <!-- Script Block -->
     <script>
-        // Get DOM elements
+        // DOM Handles
         const fileInput = document.getElementById('file-upload');
+        const dropZone = document.getElementById('drop-zone');
         const previewContainer = document.getElementById('preview-container');
         const imagePreview = document.getElementById('image-preview');
-        const imageInfo = document.getElementById('image-info');
+        const resetBtn = document.getElementById('reset-btn');
         const formatSelect = document.getElementById('format-select');
         const convertBtn = document.getElementById('convert-btn');
+        const convertIcon = document.getElementById('convert-icon');
+        const downloadCard = document.getElementById('download-card');
         const downloadLink = document.getElementById('download-link');
-        const statusMessage = document.getElementById('status-message');
+        const downloadInfo = document.getElementById('download-info');
 
-        // Store the loaded image object (can be an Image or a Canvas)
-        let originalImage = null;
+        // State Tracking
+        let originalImage = null; // Canvas element or Image element
         let originalFileName = '';
         let originalType = '';
-        let currentBlobUrl = null; // To store blob URLs for revocation
-        
-        // Allowed input types
-        const SUPPORTED_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 'image/tiff'];
+        let originalFileSizeStr = '';
+        let currentInputUrl = null; // URL for input preview object
+        let currentBlobUrl = null;  // URL for output download blob
+        let heicScriptLoaded = false;
 
-        // --- Helper to revoke old blob URLs ---
+        // Supported input formats
+        const SUPPORTED_INPUT_TYPES = [
+            'image/jpeg', 'image/png', 'image/webp', 'image/svg+xml', 
+            'image/tiff', 'image/heic', 'image/heif', 'image/bmp', 'image/gif'
+        ];
+
+        // Format normalizer helper
+        function getNormalizedType(file) {
+            if (file.type && SUPPORTED_INPUT_TYPES.includes(file.type)) {
+                return file.type;
+            }
+            // Fallback to extension mapping (essential for browsers that don't recognize tiff or heic)
+            const ext = file.name.split('.').pop().toLowerCase();
+            const extMap = {
+                'jpg': 'image/jpeg',
+                'jpeg': 'image/jpeg',
+                'png': 'image/png',
+                'webp': 'image/webp',
+                'svg': 'image/svg+xml',
+                'tif': 'image/tiff',
+                'tiff': 'image/tiff',
+                'heic': 'image/heic',
+                'heif': 'image/heic',
+                'bmp': 'image/bmp',
+                'gif': 'image/gif',
+                'ico': 'image/x-icon'
+            };
+            return extMap[ext] || '';
+        }
+
+        // File size formatter
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+
+        // Revoke memory allocations
+        function revokeInputUrl() {
+            if (currentInputUrl) {
+                URL.revokeObjectURL(currentInputUrl);
+                currentInputUrl = null;
+            }
+        }
         function revokeBlobUrl() {
             if (currentBlobUrl) {
                 URL.revokeObjectURL(currentBlobUrl);
@@ -163,190 +350,409 @@
             }
         }
 
-        // --- Event Listener for File Input ---
-        fileInput.addEventListener('change', (e) => {
-            revokeBlobUrl(); // Clean up any previous blob URL
-            const file = e.target.files[0];
-            if (!file) {
+        // Status visual card helper
+        function showStatus(message, type) {
+            const card = document.getElementById('status-card');
+            const icon = document.getElementById('status-icon');
+            const text = document.getElementById('status-text');
+
+            if (!message) {
+                card.classList.add('hidden');
                 return;
             }
 
-            // Check if the file type is supported
-            if (!SUPPORTED_TYPES.includes(file.type)) {
-                statusMessage.textContent = 'Error: Unsupported file type.';
-                resetUI();
-                return;
-            }
+            card.classList.remove('hidden');
+            text.textContent = message;
+            card.className = "p-3 rounded-xl border flex items-center gap-3 text-xs transition-all duration-300 ";
 
-            originalFileName = file.name.split('.').slice(0, -1).join('.');
-            originalType = file.type;
-            const reader = new FileReader();
-
-            // Handle TIFF files separately
-            if (file.type === 'image/tiff') {
-                reader.onload = (event) => handleTiffFile(event.target.result);
-                reader.readAsArrayBuffer(file);
-            } 
-            // Handle standard browser-supported types
-            else {
-                reader.onload = (event) => handleStandardImageFile(event.target.result);
-                reader.readAsDataURL(file);
+            if (type === 'error') {
+                card.classList.add('bg-red-950/20', 'border-red-800/35', 'text-red-400');
+                icon.textContent = 'error';
+            } else if (type === 'success') {
+                card.classList.add('bg-emerald-950/20', 'border-emerald-800/35', 'text-emerald-400');
+                icon.textContent = 'check_circle';
+            } else if (type === 'info') {
+                card.classList.add('bg-indigo-950/20', 'border-indigo-800/35', 'text-indigo-300');
+                icon.textContent = 'info';
+            } else {
+                card.classList.add('bg-slate-950/40', 'border-slate-800', 'text-slate-400');
+                icon.textContent = 'sync';
             }
-            
-            reader.onerror = () => {
-                statusMessage.textContent = 'Error: Could not read file.';
-                resetUI();
-            };
+        }
+
+        // --- Drag and Drop Handlers ---
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, e => {
+                e.preventDefault();
+                e.stopPropagation();
+            }, false);
         });
 
-        // --- Handler for TIFF Files ---
-        function handleTiffFile(arrayBuffer) {
-            // Initialize tiff.js
-            try {
-                Tiff.initialize({ TOTAL_MEMORY: 16777216 * 10 }); // ~160MB
-                const tiff = new Tiff(arrayBuffer);
-                originalImage = tiff.toCanvas(); // This is an HTMLCanvasElement
+        ['dragenter', 'dragover'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.add('border-brand-500', 'bg-brand-950/10');
+                dropZone.classList.remove('border-slate-700/60', 'bg-slate-950/40');
+            }, false);
+        });
 
-                if (!originalImage) {
-                    throw new Error('TIFF data could not be parsed.');
+        ['dragleave', 'drop'].forEach(event => {
+            dropZone.addEventListener(event, () => {
+                dropZone.classList.remove('border-brand-500', 'bg-brand-950/10');
+                dropZone.classList.add('border-slate-700/60', 'bg-slate-950/40');
+            }, false);
+        });
+
+        dropZone.addEventListener('drop', e => {
+            const files = e.dataTransfer.files;
+            if (files && files.length > 0) {
+                fileInput.files = files;
+                processFile(files[0]);
+            }
+        });
+
+        dropZone.addEventListener('click', () => fileInput.click());
+
+        fileInput.addEventListener('change', e => {
+            if (e.target.files && e.target.files.length > 0) {
+                processFile(e.target.files[0]);
+            }
+        });
+
+        resetBtn.addEventListener('click', resetUI);
+
+        // --- Dynamic Asset Loading (HEIC) ---
+        async function loadHeicDecoder() {
+            if (heicScriptLoaded) return;
+            showStatus('Loading HEIC/HEIF conversion library...', 'info');
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js';
+                script.onload = () => {
+                    heicScriptLoaded = true;
+                    resolve();
+                };
+                script.onerror = () => reject(new Error('Failed to load HEIC library.'));
+                document.head.appendChild(script);
+            });
+        }
+
+        // --- Core File Processor ---
+        async function processFile(file) {
+            resetUI();
+            
+            originalFileName = file.name.split('.').slice(0, -1).join('.');
+            originalFileSizeStr = formatFileSize(file.size);
+            
+            const detectedMime = getNormalizedType(file);
+            if (!detectedMime) {
+                showStatus('Unsupported format. Please upload a standard image file.', 'error');
+                return;
+            }
+            
+            originalType = detectedMime;
+
+            // Handle HEIC
+            if (originalType === 'image/heic') {
+                try {
+                    await loadHeicDecoder();
+                    showStatus('Unpacking HEIC image...', 'info');
+                    const convertedBlob = await heic2any({
+                        blob: file,
+                        toType: 'image/jpeg',
+                        quality: 0.92
+                    });
+                    loadBrowserSupportedImage(convertedBlob);
+                } catch (err) {
+                    console.error('HEIC processing error:', err);
+                    showStatus('Error: Failed to process HEIC file. Make sure it is not corrupted.', 'error');
+                    resetUI();
                 }
-                
-                updatePreviewAndUI();
+            }
+            // Handle TIFF
+            else if (originalType === 'image/tiff') {
+                showStatus('Reading TIFF channels...', 'info');
+                const reader = new FileReader();
+                reader.onload = e => handleTiffBuffer(e.target.result);
+                reader.onerror = () => showStatus('Error reading file data.', 'error');
+                reader.readAsArrayBuffer(file);
+            }
+            // Standard Web Formats (PNG, JPG, SVG, WebP, BMP, GIF)
+            else {
+                loadBrowserSupportedImage(file);
+            }
+        }
 
-            } catch (error) {
-                console.error('TIFF parsing error:', error);
-                statusMessage.textContent = 'Error: Failed to load TIFF file.';
+        // --- TIFF Image Assembly ---
+        function handleTiffBuffer(buffer) {
+            try {
+                const ifds = UTIF.decode(buffer);
+                if (!ifds || ifds.length === 0) {
+                    throw new Error('TIFF container structure is invalid.');
+                }
+                const ifd = ifds[0];
+                UTIF.decodeImage(buffer, ifd);
+                const rgba8 = UTIF.toRGBA8(ifd); // Uint8Array of RGBA values
+
+                const canvas = document.createElement('canvas');
+                canvas.width = ifd.width;
+                canvas.height = ifd.height;
+                const ctx = canvas.getContext('2d');
+                const imgData = new ImageData(new Uint8ClampedArray(rgba8.buffer), ifd.width, ifd.height);
+                ctx.putImageData(imgData, 0, 0);
+
+                originalImage = canvas;
+                updatePreviewAndUI();
+            } catch (err) {
+                console.error(err);
+                showStatus('Error: TIFF processing failed. Compressed formats like LZW are not fully supported.', 'error');
                 resetUI();
             }
         }
-        
-        // --- Handler for Standard Image Files (JPG, PNG, WebP, SVG) ---
-        function handleStandardImageFile(dataUrl) {
-            originalImage = new Image(); // This is an HTMLImageElement
-            
+
+        // --- Standard Image Loader ---
+        function loadBrowserSupportedImage(fileBlob) {
+            originalImage = new Image();
+            const objectUrl = URL.createObjectURL(fileBlob);
+            currentInputUrl = objectUrl;
+
             originalImage.onload = () => {
                 updatePreviewAndUI();
             };
-            
+
             originalImage.onerror = () => {
-                statusMessage.textContent = 'Error: Could not load image file.';
+                showStatus('Error: Could not render image preview.', 'error');
                 resetUI();
             };
 
-            originalImage.src = dataUrl;
+            originalImage.src = objectUrl;
         }
 
-        // --- Common function to update UI after any image is loaded ---
+        // --- Visual Refresh after successful load ---
         function updatePreviewAndUI() {
-            const width = originalImage.width;
-            const height = originalImage.height;
+            const w = originalImage.width;
+            const h = originalImage.height;
 
-            // For TIFF, the originalImage is a canvas. We need to create a
-            // Data URL from it for the <img> preview tag.
-            if (originalType === 'image/tiff') {
+            if (originalImage instanceof HTMLCanvasElement) {
                 imagePreview.src = originalImage.toDataURL('image/png');
-            }
-            // For others, originalImage is an Image, and its .src is the Data URL.
-            else {
+            } else {
                 imagePreview.src = originalImage.src;
             }
-            
-            // Show preview
+
             previewContainer.classList.remove('hidden');
             
-            // Show image info
-            imageInfo.textContent = `Original: ${width}x${height} (${originalType.split('/')[1].toUpperCase()})`;
-            
-            // Enable conversion
+            const label = originalType.split('/')[1] || originalType;
+            document.getElementById('info-format').textContent = label.toUpperCase();
+            document.getElementById('info-dimensions').textContent = `${w} × ${h}`;
+            document.getElementById('info-size').textContent = originalFileSizeStr;
+
             convertBtn.disabled = false;
-            statusMessage.textContent = 'Ready to convert.';
-            downloadLink.classList.add('hidden');
+            showStatus('Image loaded successfully. Ready to convert.', 'success');
+            downloadCard.classList.add('hidden');
         }
 
-        // --- Event Listener for Convert Button ---
+        // --- Conversion Click Handler ---
         convertBtn.addEventListener('click', () => {
-            if (!originalImage) {
-                statusMessage.textContent = 'Please select an image first.';
-                return;
-            }
+            if (!originalImage) return;
 
-            statusMessage.textContent = 'Converting...';
-            downloadLink.classList.add('hidden');
+            const targetFormat = formatSelect.value;
+            showStatus('Re-rendering image canvas...', 'info');
+            downloadCard.classList.add('hidden');
             convertBtn.disabled = true;
+            convertIcon.classList.add('animate-spin');
 
-            // Use a timeout to allow the UI to update
-            setTimeout(() => {
+            setTimeout(async () => {
                 try {
-                    revokeBlobUrl(); // Clean up any previous blob URL
+                    revokeBlobUrl(); // Free memory
 
-                    const targetFormat = formatSelect.value; // e.g., 'image/png'
-                    const quality = 1.0; // 100% quality
-
-                    // Create a canvas
                     const canvas = document.createElement('canvas');
                     canvas.width = originalImage.width;
                     canvas.height = originalImage.height;
                     const ctx = canvas.getContext('2d');
 
-                    // Draw the image onto the canvas
-                    // ctx.drawImage works with both HTMLImageElement and HTMLCanvasElement
-                    ctx.drawImage(originalImage, 0, 0);
-
-                    let convertedDataUrl;
-                    let extension = targetFormat.split('/')[1]; // 'png', 'jpeg', 'webp', 'tiff'
-
-                    if (targetFormat === 'image/tiff') {
-                        // --- Handle TIFF Output ---
-                        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                        // UTIF.encodeImage expects the underlying ArrayBuffer of the RGBA data
-                        const tiffBuffer = UTIF.encodeImage(imageData.data.buffer, canvas.width, canvas.height);
-                        const blob = new Blob([tiffBuffer], { type: 'image/tiff' });
-                        convertedDataUrl = URL.createObjectURL(blob);
-                        currentBlobUrl = convertedDataUrl; // Store for later revocation
-                    } else {
-                        // --- Handle PNG, JPEG, WebP Output ---
-                        convertedDataUrl = canvas.toDataURL(targetFormat, quality);
+                    // Standardize background fill for formats that do not support transparency (like JPEG)
+                    if (targetFormat === 'image/jpeg') {
+                        ctx.fillStyle = '#FFFFFF';
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
                     }
 
-                    const newFileName = `${originalFileName}-converted.${extension}`;
+                    // Render source image to canvas
+                    ctx.drawImage(originalImage, 0, 0);
 
-                    // Set up the download link
-                    downloadLink.href = convertedDataUrl;
-                    downloadLink.download = newFileName;
-                    downloadLink.classList.remove('hidden');
-                    statusMessage.textContent = 'Conversion complete!';
+                    let outputBlob;
+                    let extension = '';
+                    const extMap = {
+                        'image/png': 'png',
+                        'image/jpeg': 'jpg',
+                        'image/webp': 'webp',
+                        'image/tiff': 'tiff',
+                        'image/bmp': 'bmp',
+                        'image/x-icon': 'ico',
+                        'image/gif': 'gif'
+                    };
+                    extension = extMap[targetFormat] || 'png';
 
-                } catch (error) {
-                    console.error('Conversion failed:', error);
-                    statusMessage.textContent = 'Error: Conversion failed.';
+                    // --- Format Routing ---
+                    if (targetFormat === 'image/tiff') {
+                        const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                        const rgbaView = new Uint8Array(imgData.data.buffer);
+                        const tiffData = UTIF.encodeImage(rgbaView, canvas.width, canvas.height);
+                        outputBlob = new Blob([tiffData], { type: 'image/tiff' });
+                    } 
+                    else if (targetFormat === 'image/bmp') {
+                        outputBlob = encodeBMP(canvas);
+                    } 
+                    else if (targetFormat === 'image/x-icon') {
+                        outputBlob = await encodeICO(canvas);
+                    } 
+                    else {
+                        // Standard formats supported directly by canvas
+                        outputBlob = await new Promise(resolve => {
+                            canvas.toBlob(resolve, targetFormat, 1.0);
+                        });
+                    }
+
+                    if (!outputBlob) {
+                        throw new Error('Image compression returned empty blob.');
+                    }
+
+                    const downloadUrl = URL.createObjectURL(outputBlob);
+                    currentBlobUrl = downloadUrl;
+
+                    const newName = `${originalFileName}-converted.${extension}`;
+                    downloadInfo.textContent = `${newName} (${formatFileSize(outputBlob.size)})`;
+                    downloadLink.href = downloadUrl;
+                    downloadLink.download = newName;
+
+                    downloadCard.classList.remove('hidden');
+                    showStatus('Conversion successful!', 'success');
+                } catch (err) {
+                    console.error(err);
+                    showStatus('Conversion failed. ' + err.message, 'error');
                 } finally {
-                    // Re-enable the convert button
                     convertBtn.disabled = false;
+                    convertIcon.classList.remove('animate-spin');
                 }
-            }, 50); // 50ms delay
+            }, 80);
         });
 
-        // --- Event Listener for Format Selector ---
+        // Clear display state when format choice changes
         formatSelect.addEventListener('change', () => {
-            // If format changes, hide the old download link
-            downloadLink.classList.add('hidden');
+            downloadCard.classList.add('hidden');
             if (originalImage) {
-                statusMessage.textContent = 'Ready to convert.';
+                showStatus('Target format updated. Ready to convert.', 'info');
             }
         });
 
-        // --- Helper Function to Reset UI ---
+        // --- Custom Image Format Encoders ---
+
+        // Manual BMP (24-bit RGB) Generator
+        function encodeBMP(canvas) {
+            const ctx = canvas.getContext('2d');
+            const imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+            const w = imgData.width;
+            const h = imgData.height;
+            const data = imgData.data;
+
+            const rowBytes = w * 3;
+            const paddedRowBytes = Math.ceil(rowBytes / 4) * 4;
+            const padding = paddedRowBytes - rowBytes;
+            const pixelDataSize = paddedRowBytes * h;
+            const fileSize = 54 + pixelDataSize;
+
+            const buffer = new ArrayBuffer(fileSize);
+            const view = new DataView(buffer);
+
+            // Bitmap File Header (14 bytes)
+            view.setUint16(0, 0x4D42, false); // Magic number: 'BM'
+            view.setUint32(2, fileSize, true); // Total file size
+            view.setUint32(6, 0, true);        // Reserved
+            view.setUint32(10, 54, true);      // Pixel array offset
+
+            // DIB Header - BITMAPINFOHEADER (40 bytes)
+            view.setUint32(14, 40, true);      // Header size
+            view.setUint32(18, w, true);       // Width
+            view.setUint32(22, h, true);       // Height (Positive = Bottom-to-Top)
+            view.setUint16(26, 1, true);       // Planes (must be 1)
+            view.setUint16(28, 24, true);      // Bits per pixel (24 for RGB)
+            view.setUint32(30, 0, true);       // Compression method (0 = uncompressed BI_RGB)
+            view.setUint32(34, pixelDataSize, true); // Image pixel data size
+            view.setUint32(38, 2835, true);    // X pixels per meter (~72 DPI)
+            view.setUint32(42, 2835, true);    // Y pixels per meter (~72 DPI)
+            view.setUint32(46, 0, true);       // Color palette count
+            view.setUint32(50, 0, true);       // Important colors
+
+            // Convert and write RGB pixel data (BMP reads bottom-to-top, BGR order)
+            let offset = 54;
+            for (let y = h - 1; y >= 0; y--) {
+                const rowStart = y * w * 4;
+                for (let x = 0; x < w; x++) {
+                    const idx = rowStart + x * 4;
+                    view.setUint8(offset++, data[idx + 2]); // Blue channel
+                    view.setUint8(offset++, data[idx + 1]); // Green channel
+                    view.setUint8(offset++, data[idx]);     // Red channel
+                }
+                // Padding bytes (row must be multiple of 4 bytes)
+                for (let p = 0; p < padding; p++) {
+                    view.setUint8(offset++, 0);
+                }
+            }
+
+            return new Blob([buffer], { type: 'image/bmp' });
+        }
+
+        // Manual ICO wrapper embedding high fidelity PNG
+        async function encodeICO(canvas) {
+            // Encode the canvas to PNG format first
+            const pngBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+            const pngBuffer = await pngBlob.arrayBuffer();
+            const pngSize = pngBuffer.byteLength;
+
+            // Structure length: Header (6 bytes) + Directory Entry (16 bytes) + PNG binary payload
+            const buffer = new ArrayBuffer(6 + 16 + pngSize);
+            const view = new DataView(buffer);
+
+            // Icon File Header (6 bytes)
+            view.setUint16(0, 0, true);  // Reserved (always 0)
+            view.setUint16(2, 1, true);  // Resource type (1 = Icon .ico)
+            view.setUint16(4, 1, true);  // Count of images (1)
+
+            // Icon Directory Entry (16 bytes)
+            const w = canvas.width;
+            const h = canvas.height;
+            view.setUint8(6, w >= 256 ? 0 : w); // Width (0 means 256px)
+            view.setUint8(7, h >= 256 ? 0 : h); // Height (0 means 256px)
+            view.setUint8(8, 0);                 // Color palette size (0 if not indexed)
+            view.setUint8(9, 0);                 // Reserved (always 0)
+            view.setUint16(10, 1, true);         // Color planes (1)
+            view.setUint16(12, 32, true);        // Bit depth (32bpp)
+            view.setUint32(14, pngSize, true);   // Size of the binary data
+            view.setUint32(18, 22, true);        // Offset to the PNG binary payload (6 + 16)
+
+            // Write the PNG payload immediately after the header structures
+            const u8Array = new Uint8Array(buffer);
+            u8Array.set(new Uint8Array(pngBuffer), 22);
+
+            return new Blob([buffer], { type: 'image/x-icon' });
+        }
+
+        // --- System State Reset ---
         function resetUI() {
-            revokeBlobUrl(); // Clean up any blob URL
+            revokeBlobUrl();
+            revokeInputUrl();
             previewContainer.classList.add('hidden');
             imagePreview.src = '#';
-            imageInfo.textContent = '';
+            document.getElementById('info-format').textContent = '-';
+            document.getElementById('info-dimensions').textContent = '-';
+            document.getElementById('info-size').textContent = '-';
             convertBtn.disabled = true;
-            downloadLink.classList.add('hidden');
+            downloadCard.classList.add('hidden');
+            showStatus(null);
+            
             originalImage = null;
             originalFileName = '';
             originalType = '';
-            fileInput.value = null; // Clear the file input
+            originalFileSizeStr = '';
+            fileInput.value = null;
         }
 
     </script>
